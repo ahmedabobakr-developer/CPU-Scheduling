@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>CPU Scheduling <span>Simulator</span></h1>
+            <p>Comparing Round Robin & Shortest Job First (Non-Preemptive)</p>
+        </header>
+
+        <main>
+            <!-- Control Panel -->
+            <section class="glass-panel control-panel">
+                <div class="input-section">
+                    <h2>Add Process</h2>
+                    <form id="process-form">
+                        <div class="form-group">
+                            <label for="pid">Process ID</label>
+                            <input type="text" id="pid" placeholder="e.g. P1" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="arrivalTime">Arrival Time</label>
+                            <input type="number" id="arrivalTime" min="0" placeholder=">= 0">
+                        </div>
+                        <div class="form-group">
+                            <label for="burstTime">Burst Time</label>
+                            <input type="number" id="burstTime" min="1" placeholder="> 0">
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="add-btn">Add Process</button>
+                    </form>
+                    <div id="error-message" class="error-msg hidden"></div>
+                </div>
+
+                <div class="global-settings">
+                    <h2>Global Settings</h2>
+                    <div class="form-group">
+                        <label for="quantum">Time Quantum (for RR)</label>
+                        <input type="number" id="quantum" min="1" placeholder="> 0" value="2">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Process Queue -->
+            <section class="glass-panel queue-panel">
+                <div class="panel-header">
+                    <h2>Process Queue</h2>
+                    <button class="btn btn-accent" id="run-btn" disabled>Run Simulation</button>
+                    <button class="btn btn-secondary" id="clear-btn">Clear All</button>
+                </div>
+                <div class="table-container">
+                    <table id="process-table">
+                        <thead>
+                            <tr>
+                                <th>Process ID</th>
+                                <th>Arrival Time</th>
+                                <th>Burst Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="process-table-body">
+                            <!-- Processes will be injected here -->
+                            <tr id="empty-row">
+                                <td colspan="4" class="text-center text-muted">No processes added yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Results Section (Hidden until run) -->
+            <section id="results-section" class="hidden">
+                <!-- Comparison -->
+                <div class="glass-panel comparison-panel">
+                    <h2>Performance Comparison</h2>
+                    <div class="comparison-grid">
+                        <div class="algo-card rr-card">
+                            <h3>Round Robin</h3>
+                            <div class="metrics">
+                                <div class="metric"><span class="label">Avg WT:</span> <span id="rr-avg-wt">0.00</span></div>
+                                <div class="metric"><span class="label">Avg TAT:</span> <span id="rr-avg-tat">0.00</span></div>
+                                <div class="metric"><span class="label">Avg RT:</span> <span id="rr-avg-rt">0.00</span></div>
+                            </div>
+                        </div>
+                        <div class="algo-card sjf-card">
+                            <h3>Shortest Job First</h3>
+                            <div class="metrics">
+                                <div class="metric"><span class="label">Avg WT:</span> <span id="sjf-avg-wt">0.00</span></div>
+                                <div class="metric"><span class="label">Avg TAT:</span> <span id="sjf-avg-tat">0.00</span></div>
+                                <div class="metric"><span class="label">Avg RT:</span> <span id="sjf-avg-rt">0.00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round Robin Details -->
+                <div class="glass-panel algo-details rr-details">
+                    <h2>Round Robin (RR) Details</h2>
+                    <div class="gantt-container">
+                        <h3>Gantt Chart</h3>
+                        <div class="gantt-chart" id="rr-gantt"></div>
+                    </div>
+                    <div class="table-container">
+                        <table class="result-table">
+                            <thead>
+                                <tr>
+                                    <th>Process</th>
+                                    <th>AT</th>
+                                    <th>BT</th>
+                                    <th>CT</th>
+                                    <th>TAT</th>
+                                    <th>WT</th>
+                                    <th>RT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rr-result-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SJF Details -->
+                <div class="glass-panel algo-details sjf-details">
+                    <h2>Shortest Job First (SJF) Details</h2>
+                    <div class="gantt-container">
+                        <h3>Gantt Chart</h3>
+                        <div class="gantt-chart" id="sjf-gantt"></div>
+                    </div>
+                    <div class="table-container">
+                        <table class="result-table">
+                            <thead>
+                                <tr>
+                                    <th>Process</th>
+                                    <th>AT</th>
+                                    <th>BT</th>
+                                    <th>CT</th>
+                                    <th>TAT</th>
+                                    <th>WT</th>
+                                    <th>RT</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sjf-result-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
