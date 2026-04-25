@@ -31,26 +31,26 @@ function renderTable(tbodyId, results) {
     var tbody = document.getElementById(tbodyId);
     tbody.innerHTML = '';
 
-    results.forEach(p => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><strong>${p.id}</strong></td>
-            <td>${p.at}</td>
-            <td>${p.bt}</td>
-            <td>${p.ct}</td>
-            <td>${p.tat}</td>
-            <td>${p.wt}</td>
-            <td>${p.rt}</td>
-        `;
+    for (var i = 0; i < results.length; i++) {
+        var p = results[i];
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+            '<td><strong>' + p.id + '</strong></td>' +
+            '<td>' + p.at + '</td>' +
+            '<td>' + p.bt + '</td>' +
+            '<td>' + p.ct + '</td>' +
+            '<td>' + p.tat + '</td>' +
+            '<td>' + p.wt + '</td>' +
+            '<td>' + p.rt + '</td>';
         tbody.appendChild(tr);
-    });
+    }
 }
 
 function renderGantt(containerId, ganttData) {
-    const container = document.getElementById(containerId);
+    var container = document.getElementById(containerId);
     container.innerHTML = '';
 
-    const totalTime = ganttData[ganttData.length - 1].end;
+    var totalTime = ganttData[ganttData.length - 1].end;
 
     for (var i = 0; i < ganttData.length; i++) {
         var block = ganttData[i];
@@ -72,12 +72,12 @@ function renderGantt(containerId, ganttData) {
         div.style.animationDelay = (i * 0.1) + "s";
 
         // Process ID
-        const pidSpan = document.createElement('span');
+        var pidSpan = document.createElement('span');
         pidSpan.className = 'gantt-block-pid';
         pidSpan.textContent = block.id;
 
         // Start Time
-        const startSpan = document.createElement('span');
+        var startSpan = document.createElement('span');
         startSpan.className = 'gantt-time-start';
         startSpan.textContent = block.start;
 
@@ -86,7 +86,7 @@ function renderGantt(containerId, ganttData) {
 
         // Add end time for the last block
         if (i === ganttData.length - 1) {
-            const endSpan = document.createElement('span');
+            var endSpan = document.createElement('span');
             endSpan.className = 'gantt-time-end';
             endSpan.textContent = block.end;
             div.appendChild(endSpan);

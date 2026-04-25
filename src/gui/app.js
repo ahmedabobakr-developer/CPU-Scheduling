@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const colorClass = `color-${colorIndex % 10}`; // select color from colors array
+        var colorClass = 'color-' + (colorIndex % 10); // select color from colors array
         colorIndex++;
 
         processes.push(new Process(pid, at, bt, colorClass));
@@ -67,16 +67,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         runBtn.disabled = false;
 
-        processes.forEach((p, index) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><strong class="text-main" style="color:var(--accent-blue)">${p.id}</strong></td>
-                <td>${p.at}</td>
-                <td>${p.bt}</td>
-                <td><button class="btn btn-danger" onclick="removeProcess('${p.id}')">Remove</button></td>
-            `;
+        for (var i = 0; i < processes.length; i++) {
+            var p = processes[i];
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td><strong class="text-main" style="color:var(--accent-blue)">' + p.id + '</strong></td>' +
+                '<td>' + p.at + '</td>' +
+                '<td>' + p.bt + '</td>' +
+                '<td><button class="btn btn-danger" onclick="removeProcess(\'' + p.id + '\')">Remove</button></td>';
             processTableBody.appendChild(tr);
-        });
+        }
     }
 
     window.removeProcess = function(id) {
