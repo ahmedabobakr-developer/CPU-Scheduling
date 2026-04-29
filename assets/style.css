@@ -162,6 +162,14 @@ input:focus {
     box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
 }
 
+input[readonly] {
+    cursor: default;
+    opacity: 0.75;
+    border-left: 3px solid var(--accent-blue);
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
 /* Buttons */
 .btn {
     padding: 0.75rem 1.5rem;

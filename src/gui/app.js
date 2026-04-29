@@ -10,29 +10,20 @@ document.addEventListener('DOMContentLoaded', function() {
     var resultsSection = document.getElementById('results-section');
     var emptyRow = document.getElementById('empty-row');
 
+    // Show the next auto-generated PID on page load
+    pidInput.value = 'P' + pidCounter;
+
     processForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        var pid = pidInput.value.trim();
+        // PID is auto-generated — read directly from the counter
+        var pid = 'P' + pidCounter;
         var at = parseInt(arrivalTimeInput.value);
         var bt = parseInt(burstTimeInput.value);
 
         // Validations
-        if (!pid || isNaN(at) || isNaN(bt)) {
-            showError('All fields are required.');
-            return;
-        }
-
-        var exists = false;
-        for (var i = 0; i < processes.length; i++) {
-            if (processes[i].id === pid) {
-                exists = true;
-                break;
-            }
-        }
-
-        if (exists === true) {
-            showError("Process ID '" + pid + "' already exists.");
+        if (isNaN(at) || isNaN(bt)) {
+            showError('Arrival Time and Burst Time are required.');
             return;
         }
 
@@ -46,14 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        var colorClass = 'color-' + (colorIndex % 10); // select color from colors array
+        var colorClass = 'color-' + (colorIndex % 10);
         colorIndex++;
+        pidCounter++;
 
         processes.push(new Process(pid, at, bt, colorClass));
 
         updateProcessTable();
         processForm.reset();
-        pidInput.focus();
+        // Restore the next PID after reset clears the field
+        pidInput.value = 'P' + pidCounter;
+        arrivalTimeInput.focus();
     });
 
     // Update the Process Table
@@ -93,6 +87,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     clearBtn.addEventListener('click', function() {
         processes = [];
+        colorIndex = 0;
+        pidCounter = 1;
+        pidInput.value = 'P' + pidCounter;
         updateProcessTable();
         resultsSection.classList.add('hidden');
     });
