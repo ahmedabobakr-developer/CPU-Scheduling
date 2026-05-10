@@ -26,39 +26,6 @@ body {
     position: relative;
 }
 
-/* Background Animated Blobs */
-.background-effects {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.blob {
-    position: absolute;
-    filter: blur(100px);
-    opacity: 0.5;
-    border-radius: 50%;
-}
-
-.blob-1 {
-    width: 400px;
-    height: 400px;
-    background: var(--accent-blue);
-    top: -100px;
-    left: -100px;
-}
-
-.blob-2 {
-    width: 500px;
-    height: 500px;
-    background: var(--accent-purple);
-    bottom: -150px;
-    right: -100px;
-}
 
 /* Container & Typography */
 .container {
